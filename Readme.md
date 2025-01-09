@@ -8,6 +8,9 @@ Easy
 ### Categories:
 Web, graphql
 
+### Created with:
+Django, React, Graphene
+
 ### Source handout:
 No
 
