@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: CHANGE_ME!
+      POSTGRES_DB: postgres
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      SQL_ENGINE: django.db.backends.postgresql
+      DB_NAME: postgres
+      DB_HOST: db
+      SQL_USER: postgres
+      SQL_PASSWORD: CHANGE_ME!
+      SQL_DB: postgres
+      SECRET_KEY: CHANGE_ME!
+      ADMIN_PASSWORD: lunchbox1 # Something easy that is in rockyou.txt
+      FLAG: flag{md5_p455w0rd5_4r3_n07_53cur3!}
+
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
